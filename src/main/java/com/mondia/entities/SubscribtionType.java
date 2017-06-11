@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,7 +32,6 @@ public class SubscribtionType implements Serializable {
 	private int id;
 
 	private float price;
-
 	@JsonManagedReference("contingents")
 	// bi-directional many-to-one association to Contingent
 	@OneToMany(mappedBy = "subscribtionType")

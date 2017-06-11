@@ -16,6 +16,7 @@ import com.mondia.repositories.SubscribtionTypeRepository;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiParam;
 
 @Api
 @RestController
@@ -42,7 +43,7 @@ public class SubscribtionTypeResource {
 	
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/getByContingentType")
-	public List<SubscribtionType> getSubscribtionTypeById(@ApiModelProperty(value="a list of values", allowableValues="foo,bar,baz", required=false)@RequestParam("contingentTypeList")List<String> contingentTypeList) throws Exception{
+	public List<SubscribtionType> getSubscribtionTypeById(@ApiParam(value="a list of values", allowableValues="game , music , app",allowMultiple= true , required=false) @RequestParam("contingentTypeList")List<String> contingentTypeList) throws Exception{
 		return subscribtionTypeRepository.findDistinctByContingentsTypeIn(contingentTypeList);
 	}
 	

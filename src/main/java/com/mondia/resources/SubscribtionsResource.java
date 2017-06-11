@@ -20,6 +20,7 @@ import com.mondia.repositories.SubscribtionTypeRepository;
 import com.mondia.repositories.UserRepository;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModelProperty;
 
 @Api
 @RestController
