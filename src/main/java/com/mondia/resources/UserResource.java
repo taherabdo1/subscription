@@ -1,5 +1,6 @@
 package com.mondia.resources;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mondia.entities.Article;
 import com.mondia.entities.User;
+import com.mondia.repositories.UserArticleConsumbtionHistoryRepository;
 import com.mondia.repositories.UserRepository;
+import com.mondia.entities.UserArticleConsumbtionHistory;
+
+import scala.annotation.meta.setter;
 
 @RestController
 @RequestMapping("/user")
@@ -17,6 +23,8 @@ public class UserResource {
 
 	@Autowired
 	UserRepository userRepository;
+	@Autowired
+	UserArticleConsumbtionHistoryRepository userArticleConsumbtionHistoryRepository;
 
 	/**
 	 * 
@@ -26,6 +34,15 @@ public class UserResource {
 	@RequestMapping(method = RequestMethod.GET, value = "/getAll")
 	public List<User> getAllUsers() {
 		List<User> users = (List<User>) userRepository.findAll();
+		Article article = new Article();
+		article.setId(2);
+		User user = new User();
+		user.setId(1);
+		UserArticleConsumbtionHistory userHistory = new UserArticleConsumbtionHistory();
+		userHistory.setUser(user);
+		userHistory.setArticle(article);
+		userHistory.setConsumbtionDate(new Date());
+		userArticleConsumbtionHistoryRepository.save(userHistory);
 		return users;
 	}
 	/**

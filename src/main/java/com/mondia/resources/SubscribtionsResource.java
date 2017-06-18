@@ -12,9 +12,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mondia.entities.ConsumedContingent;
+import com.mondia.entities.Contingent;
 import com.mondia.entities.Subscribtion;
 import com.mondia.entities.SubscribtionType;
 import com.mondia.entities.User;
+import com.mondia.repositories.ConsumedContingentRepository;
 import com.mondia.repositories.SubscribtionRepository;
 import com.mondia.repositories.SubscribtionTypeRepository;
 import com.mondia.repositories.UserRepository;
@@ -36,26 +39,38 @@ public class SubscribtionsResource {
 	@Autowired
 	UserRepository userRepository;
 
+	@Autowired
+	ConsumedContingentRepository consumedContingentRepository;
+
 	@RequestMapping(method = RequestMethod.GET, value = "/test")
 	public String testMethod() {
 		return "test succeeded";
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/subscribe", consumes = "application/json")
-	public Subscribtion subscribe( @RequestParam Integer userId ,@RequestParam Integer subscribtionTypeId) {
-		System.out.println("user id: " + userId +" and subscribtion type id: " + subscribtionTypeId);
+	public Subscribtion subscribe(@RequestParam Integer userId, @RequestParam Integer subscribtionTypeId) {
+		System.out.println("user id: " + userId + " and subscribtion type id: " + subscribtionTypeId);
 		Subscribtion subscribtion = new Subscribtion();
 		subscribtion.setStartDate(new Date());
 
-		SubscribtionType subscribtionType = new SubscribtionType();
-		subscribtionType.setId(subscribtionTypeId);
+		SubscribtionType subscribtionType = subscribtionTypeRepository.findOne(subscribtionTypeId);
 		subscribtion.setSubscribtionType(subscribtionType);
-		
+
 		User user = new User();
 		user.setId(userId);
 		subscribtion.setUser(user);
-		
-		return subscribtionRepository.save(subscribtion);
+		Subscribtion subscribtion2 = subscribtionRepository.save(subscribtion);
+		System.out.println("subscription Id : " + subscribtion2.getId());
+		System.out.println("subscription type Id : " + subscribtionType.getId());
+		ConsumedContingent consumedContingent = null;
+		for (Contingent contingent : subscribtionType.getContingents()) {
+			consumedContingent = new ConsumedContingent();
+			consumedContingent.setAmount(contingent.getAmount());
+			consumedContingent.setType(contingent.getType());
+			consumedContingent.setSubscribtion(subscribtion2);
+			consumedContingentRepository.save(consumedContingent);
+		}
+		return subscribtion;
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/getAll")

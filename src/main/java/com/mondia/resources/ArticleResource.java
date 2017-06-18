@@ -36,7 +36,8 @@ public class ArticleResource {
 	 */
 	@RequestMapping(method = RequestMethod.POST, value = "/add")
 	public Article addNewArticle(@RequestBody Article article){
-		return articleRepository.save(article);
+		Article persistedArticle = articleRepository.save(article);
+		return persistedArticle;
 	}
 
 	/**

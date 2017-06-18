@@ -10,27 +10,30 @@ import lombok.Setter;
 
 import java.util.List;
 
-
 /**
  * The persistent class for the user database table.
  * 
  */
 @Entity
-@Getter @Setter
-@NamedQuery(name="User.findAll", query="SELECT u FROM User u")
+@Getter
+@Setter
+@NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
 	private String email;
-	
+
 	private String password;
 
-	
 	@JsonManagedReference
-	//bi-directional many-to-one association to Subscribtion
-	@OneToMany(mappedBy="user")
+	// bi-directional many-to-one association to Subscribtion
+	@OneToMany(mappedBy = "user")
 	private List<Subscribtion> subscribtions;
+
+	@OneToOne(optional = true, mappedBy = "user")
+	UserArticleConsumbtionHistory userArticleConsumbtionHistory;
 }
