@@ -11,4 +11,5 @@ import com.mondia.entities.SubscribtionType;
 @Transactional
 public interface ContingentRepository extends CrudRepository<Contingent, Integer> {
 
+	List<Contingent> findDistinctByTypeAndSubscribtionTypeSubscribtionsUserId(String type , Integer id);
 }

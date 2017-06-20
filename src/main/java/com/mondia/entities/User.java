@@ -3,6 +3,7 @@ package com.mondia.entities;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Getter;
@@ -34,6 +35,7 @@ public class User implements Serializable {
 	@OneToMany(mappedBy = "user")
 	private List<Subscribtion> subscribtions;
 
+	@JsonIgnore
 	@OneToOne(optional = true, mappedBy = "user")
 	UserArticleConsumbtionHistory userArticleConsumbtionHistory;
 }

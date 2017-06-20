@@ -3,6 +3,8 @@ package com.mondia.entities;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,6 +28,7 @@ public class Article implements Serializable {
 
 	private String type;
 
+	@JsonIgnore
 	@OneToOne(optional = true, mappedBy = "article")
 	UserArticleConsumbtionHistory userArticleConsumbtionHistory;
 
